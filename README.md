@@ -7,16 +7,7 @@ Welcome to the repository! The intent is to provide clear steps to standing up a
 - NVIDIA Container Toolkit
 - Docker 
 
-//TODO insert info on ensuring correct driver versions <br>
 //TODO insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
-
-**Login to nvcr.io with your NGC API key credentials.**
-
-```
-$ docker login nvcr.io
-- Username: $oauthtoken
-- Password: <Insert NGC key: nvapi-u6hwGp....>
-```
 
 
 ## Quickstart 
@@ -26,18 +17,65 @@ After performing some initial system checks and ensuring the container toolkit &
 
 To make it easy for you to get started, here's the next steps to quickstart.
 
-**Clone the repository and navigate into the appropiate directory.**
+**1. Login to nvcr.io with your NGC API key credentials.**
+
 ```
-git clone https://github.com/NVIDIA/GenerativeAIExamples.git && cd GenerativeAIExamples/RAG/examples/basic_rag/langchain
+$ docker login nvcr.io
+- Username: $oauthtoken
+- Password: <Insert NGC key: nvapi-u6hwGp....>
 ```
 
+**2. Clone the repository and navigate into the appropiate directory.**
+```
+git clone https://gitlab-master.nvidia.com/msorkin/rag-on-gh200.git && cd rag-on-gh200
+```
 
+**3. It's time to set up some environment variables and folders. Run these commands in terminal.**
+```
+$ export NGC_API_KEY="<YOUR_NGC_API_KEY>"
+$ mkdir -p ~/.cache/model-cache
+$ export MODEL_DIRECTORY=~/.cache/model-cache
+$ export LOCAL_NIM_CACHE=~/.cache/nim
+$ mkdir -p "$LOCAL_NIM_CACHE"
+
+```
+
+**4. Check the uid, and then exit before we run some `sudo chown ...` commands.**
+```
+$ docker run --rm -it nvcr.io/nim/meta/llama-3.1-8b-instruct:1.8.4 bash
+$ id
+EXAMPLE OUTPUT: 
+uid=1000(nim) gid=1000(nim)  ... ...
+$ exit
+```
+
+**5. If the `uid` is not `1000`, replace commands with the correct uid values. Else, simply run these commands in terminal.**
+```
+$ sudo chown -R 1000:1000 ~/.cache/model-cache
+$ sudo chmod -R 775 ~/.cache/model-cache
+$ sudo chown -R 1000:1000 ~/.cache/nim
+$ sudo chmod -R 775 ~/.cache/nim
+```
+
+**6.Set up more environment variables**
+```
+$ export APP_LLM_SERVERURL="nemollm-inference:8000"
+$ export APP_EMBEDDINGS_SERVERURL="nemollm-embedding:8000"
+$ export APP_RANKING_SERVERURL="ranking-ms:8000"
+$ export APP_EMBEDDINGS_MODELNAME="nvidia/nv-embedqa-e5-v5"
+$ export APP_RANKING_MODELNAME="nvidia/llama-3.2-nv-rerankqa-1b-v2"
+$ export NIM_KVCACHE_PERCENT=0.4
+
+```
+
+**7. Everything should be set up! Let's spin up the RAG solution. Run this command to deploy the containers/** 
 ```
 $ cd RAG/examples/basic_rag/langchain
 USERID=$(id -u) docker compose --profile local-nim --profile nemo-retriever --profile milvus up --build -d
 ```
 
-Run `nvidia-smi` to see the memory usage of the RAG containers. 
+
+**8. Run `nvidia-smi` to see the memory usage of the RAG containers. Verify that your processes align to the expected GPU memory usage.** 
 ```
 $ nvidia-smi
 
@@ -65,6 +103,23 @@ Mon May 19 17:44:11 2025
 +-----------------------------------------------------------------------------------------+
 
 ```
+
+**9. The final step is to verify the RAG solution, there are a series of steps for this.**
+
+In a new terminal, we need to set up a port tunnel to our server. 
+
+```
+ssh -L 9999:localhost:8071 nvidia@10.185.125.XX
+- Password: <insert password>
+```
+
+Open up a tab in your browser. Go to this URL http://localhost:9999/docs#/. 
+
+Upload a `.txt` document.
+> You should see something akin to `"message": "File uploaded successfully"`
+
+
+
 
 ## Further Resources (NIMs, RAG)
 - links to some blogs
