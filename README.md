@@ -7,9 +7,9 @@ Welcome to the repository! The intent is to provide clear steps to standing up a
 - NVIDIA Container Toolkit
 - Docker 
 
-[i] insert info on ensuring correct driver versions
-[i] insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps
-[i] insert some system checks? 
+[i] insert info on ensuring correct driver versions <br>
+[i] insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
+[i] insert some system checks? <br>
 
 ## Quickstart 
 _last updated: X-X-XXXX_
