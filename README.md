@@ -9,6 +9,27 @@ Welcome to the repository! The intent is to provide clear steps to standing up a
 
 [i] insert info on ensuring correct driver versions <br>
 [i] insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
+```
+nvidia-ctk runtime configure --runtime=docker
+systemctl restart docker
+docker info | grep -i runtime
+
+vi /etc/docker/daemon.json
+```
+
+Edit daemon.json file to include the following. Save the modified file. 
+> Using VIM file editor: Press i to edit/insert, Use arrow keys to navigate in the file, Press Esc to leave editing mode, and make sure to type in wq! in VIM to properly save edits & quit VIM mode.
+```
+{
+  "runtimes": {
+    "nvidia": {
+      "path": "nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }, # ADD COMMA
+  "default-runtime": "nvidia" # ADD THIS LINE
+}
+```
 [i] insert some system checks? <br>
 
 ## Quickstart 
