@@ -1,0 +1,70 @@
+include:
+  - path:
+    - ../../local_deploy/docker-compose-vectordb.yaml
+    - ../../local_deploy/docker-compose-nim-ms.yaml
+services:
+  chain-server:
+    container_name: chain-server
+    image: chain-server:${TAG:-latest}
+    build:
+      # Set context to repo's root directory
+      context: ../../../../
+      dockerfile: RAG/src/chain_server/Dockerfile
+      args:
+        # Build args, used to copy relevant directory inside the container relative to GenerativeAIExamples/RAG/examples
+        EXAMPLE_PATH: 'basic_rag/langchain'
+    volumes:
+      - ./prompt.yaml:/prompt.yaml
+    # start the server on port 8070
+    command: --port 8070 --host 0.0.0.0
+    environment:
+      # Path to example directory relative to GenerativeAIExamples/RAG/examples
+      EXAMPLE_PATH: 'basic_rag/langchain'
+      # URL on which vectorstore is hosted
+      APP_VECTORSTORE_URL: "http://milvus:19530"
+      # Type of vectordb used to store embedding supported type milvus, pgvector
+      APP_VECTORSTORE_NAME: "milvus"
+      # url on which llm model is hosted. If "", Nvidia hosted API is used
+      APP_LLM_MODELNAME: meta/llama-3.2-3b-instruct:1.8.4
+      # embedding model engine used for inference, supported type nvidia-ai-endpoints, huggingface
+      APP_LLM_MODELENGINE: nvidia-ai-endpoints
+      APP_LLM_SERVERURL: nemollm-inference:8000
+      APP_EMBEDDINGS_MODELNAME: nvidia/nv-embedqa-e5-v5
+      # embedding model engine used for inference, supported type nvidia-ai-endpoints
+      APP_EMBEDDINGS_MODELENGINE: nvidia-ai-endpoints
+      # url on which embedding model is hosted. If "", Nvidia hosted API is used
+      APP_EMBEDDINGS_SERVERURL: nemollm-embedding:8000
+      APP_RANKING_MODELENGINE: nvidia-ai-endpoints
+      APP_RANKING_SERVERURL: ranking-ms:8000
+      APP_RANKING_MODELNAME: nvidia/llama-3.2-nv-rerankqa-1b-v2
+      # text splitter model name, it's fetched from huggingface
+      APP_TEXTSPLITTER_MODELNAME: Snowflake/snowflake-arctic-embed-l
+      APP_TEXTSPLITTER_CHUNKSIZE: 506
+      APP_TEXTSPLITTER_CHUNKOVERLAP: 200
+      NVIDIA_API_KEY: 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
+      # vectorstore collection name to store embeddings 
+      COLLECTION_NAME: nvidia_api_catalog
+      APP_RETRIEVER_TOPK: 4
+      APP_RETRIEVER_SCORETHRESHOLD: 0.25
+      # observability server url
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      # enable observability in chain server
+      ENABLE_TRACING: false
+      # Log level for server, supported level NOTSET, DEBUG, INFO, WARN, ERROR, CRITICAL
+      LOGLEVEL: INFO
+    ports:
+    - "8071:8070"
+    expose:
+    - "8070"
+    shm_size: 5gb
+    depends_on:
+      nemollm-embedding:
+        condition: service_healthy
+        required: true
+      nemollm-inference:
+        condition: service_healthy
+        required: true
+networks:
+  default:
+    name: nvidia-rag
