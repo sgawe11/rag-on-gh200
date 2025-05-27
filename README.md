@@ -3,46 +3,34 @@
 Welcome to the repository! The intent is to provide clear steps to standing up a basic RAG example on a GH200 system.
 
 ## Requirements
-- Updated CUDA Driver Version
+- CUDA Driver Version 12.8
 - NVIDIA Container Toolkit
 - Docker 
 
-[i] insert info on ensuring correct driver versions <br>
-[i] insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
-```
-nvidia-ctk runtime configure --runtime=docker
-systemctl restart docker
-docker info | grep -i runtime
+//TODO insert info on ensuring correct driver versions <br>
+//TODO insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
 
-vi /etc/docker/daemon.json
-```
-
-Edit daemon.json file to include the following. Save the modified file. 
-> Using VIM file editor: Press i to edit/insert, Use arrow keys to navigate in the file, Press Esc to leave editing mode, and make sure to type in wq! in VIM to properly save edits & quit VIM mode.
-```
-{
-  "runtimes": {
-    "nvidia": {
-      "path": "nvidia-container-runtime",
-      "runtimeArgs": []
-    }
-  }, # ADD COMMA
-  "default-runtime": "nvidia" # ADD THIS LINE
-}
-```
-[i] insert some system checks? <br>
+**Login to nvcr.io with your NGC API key credentials.**
 
 ```
-systemctl restart docker
-docker login nvcr.io
+$ docker login nvcr.io
+- Username: $oauthtoken
+- Password: <Insert NGC key: nvapi-u6hwGp....>
 ```
+
 
 ## Quickstart 
-_last updated: X-X-XXXX_
+_Last updated: 05-27-2025_
 
 After performing some initial system checks and ensuring the container toolkit & engine are installed properly, it's time to stand up the RAG exmaple!
 
 To make it easy for you to get started, here's the next steps to quickstart.
+
+**Clone the repository and navigate into the appropiate directory.**
+```
+git clone https://github.com/NVIDIA/GenerativeAIExamples.git && cd GenerativeAIExamples/RAG/examples/basic_rag/langchain
+```
+
 
 ```
 $ cd RAG/examples/basic_rag/langchain
