@@ -32,6 +32,11 @@ Edit daemon.json file to include the following. Save the modified file.
 ```
 [i] insert some system checks? <br>
 
+```
+systemctl restart docker
+docker login nvcr.io
+```
+
 ## Quickstart 
 _last updated: X-X-XXXX_
 
