@@ -109,7 +109,7 @@ Mon May 19 17:44:11 2025
 **8. The final step is to verify the RAG solution, there are a series of steps for this.**
 
 (a) In a new terminal on your local computer, we need to set up a port tunnel to our server. Insert your system's IP in the designated area `user@XX.XXX.XXX.XX`. 
-> What does this command do? We will be using port `9999` on the local computer, and tunneling to the FastAPI server that is hosted on the remote system at port `8071`. 
+> What does this command do? We will be using port `9999` on the local computer, and tunneling to the FastAPI user interface that is hosted on the remote system at port `8071`.
 
 ```
 ssh -L 9999:localhost:8071 user@XX.XXX.XXX.XX
@@ -117,6 +117,7 @@ ssh -L 9999:localhost:8071 user@XX.XXX.XXX.XX
 ```
 
 (b) Open up a tab in your browser. Go to this URL http://localhost:9999/docs#/. 
+> Since we set up a port tunnel, `localhost:9999` routes to port `8071` on the remote system. Now we can access the FastAPI UI with our local browser. 
 
 (c) Upload a `.txt` document.
 > You should see something akin to `"message": "File uploaded successfully"`
