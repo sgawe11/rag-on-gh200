@@ -32,11 +32,23 @@ git clone https://gitlab-master.nvidia.com/msorkin/rag-on-gh200.git && cd rag-on
 
 **3. It's time to set up some environment variables and folders. Run these commands in terminal.**
 ```
-$ export NGC_API_KEY="<YOUR_NGC_API_KEY>"
-$ mkdir -p ~/.cache/model-cache
-$ export MODEL_DIRECTORY=~/.cache/model-cache
-$ export LOCAL_NIM_CACHE=~/.cache/nim
-$ mkdir -p "$LOCAL_NIM_CACHE"
+sudo chmod +x env_setup.sh
+./env_setup.sh
+```
+
+You should see the following output in terminal
+```
+$ ./env_setup.sh
+---- ENVIRONMENT VARIABLES SET UP ---
+/home/nvidia/.cache/model-cache
+/home/nvidia/.cache/nim
+nemollm-inference:8000
+nemollm-embedding:8000
+ranking-ms:8000
+nvidia/nv-embedqa-e5-v5
+nvidia/llama-3.2-nv-rerankqa-1b-v2
+0.4
+ ---------
 
 ```
 
@@ -57,25 +69,15 @@ $ sudo chown -R 1000:1000 ~/.cache/nim
 $ sudo chmod -R 775 ~/.cache/nim
 ```
 
-**6.Set up more environment variables**
-```
-$ export APP_LLM_SERVERURL="nemollm-inference:8000"
-$ export APP_EMBEDDINGS_SERVERURL="nemollm-embedding:8000"
-$ export APP_RANKING_SERVERURL="ranking-ms:8000"
-$ export APP_EMBEDDINGS_MODELNAME="nvidia/nv-embedqa-e5-v5"
-$ export APP_RANKING_MODELNAME="nvidia/llama-3.2-nv-rerankqa-1b-v2"
-$ export NIM_KVCACHE_PERCENT=0.4
 
-```
-
-**7. Everything should be set up! Let's spin up the RAG solution. Run this command to deploy the containers/** 
+**6. Everything should be set up! Let's spin up the RAG solution. Run this command to deploy the containers/** 
 ```
 $ cd RAG/examples/basic_rag/langchain
 USERID=$(id -u) docker compose --profile local-nim --profile nemo-retriever --profile milvus up --build -d
 ```
 
 
-**8. Run `nvidia-smi` to see the memory usage of the RAG containers. Verify that your processes align to the expected GPU memory usage.** 
+**7. Run `nvidia-smi` to see the memory usage of the RAG containers. Verify that your processes align to the expected GPU memory usage.** 
 ```
 $ nvidia-smi
 
@@ -104,7 +106,7 @@ Mon May 19 17:44:11 2025
 
 ```
 
-**9. The final step is to verify the RAG solution, there are a series of steps for this.**
+**8. The final step is to verify the RAG solution, there are a series of steps for this.**
 
 In a new terminal, we need to set up a port tunnel to our server. 
 
