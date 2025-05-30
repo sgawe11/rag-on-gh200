@@ -6,12 +6,12 @@ Welcome to the repository! The intent is to provide clear steps to standing up a
 - CUDA Driver Version 12.8
 - NVIDIA Container Toolkit
 - Docker 
-
+- NVIDIA NGC API Key
 //TODO insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
 
 
 ## Quickstart 
-_Last updated: 05-27-2025_
+_Last updated: 05-30-2025_
 
 After performing some initial system checks and ensuring the container toolkit & engine are installed properly, it's time to stand up the RAG exmaple!
 
@@ -108,17 +108,20 @@ Mon May 19 17:44:11 2025
 
 **8. The final step is to verify the RAG solution, there are a series of steps for this.**
 
-In a new terminal, we need to set up a port tunnel to our server. 
+(a) In a new terminal on your local computer, we need to set up a port tunnel to our server. Insert your system's IP in the designated area `user@XX.XXX.XXX.XX`. 
+> What does this command do? We will be using port `9999` on the local computer, and tunneling to the FastAPI server that is hosted on the remote system at port `8071`. 
 
 ```
-ssh -L 9999:localhost:8071 nvidia@10.185.125.XX
+ssh -L 9999:localhost:8071 user@XX.XXX.XXX.XX
 - Password: <insert password>
 ```
 
-Open up a tab in your browser. Go to this URL http://localhost:9999/docs#/. 
+(b) Open up a tab in your browser. Go to this URL http://localhost:9999/docs#/. 
 
-Upload a `.txt` document.
+(c) Upload a `.txt` document.
 > You should see something akin to `"message": "File uploaded successfully"`
+
+(d) Test the RAG by asking a question related to the document you uploaded.
 
 
 
