@@ -54,7 +54,7 @@ nvidia/llama-3.2-nv-rerankqa-1b-v2
 
 **4. Check the uid, and then exit before we run some `sudo chown ...` commands.**
 ```
-$ docker run --rm -it nvcr.io/nim/meta/llama-3.1-8b-instruct:1.8.4 bash
+docker run --rm -it nvcr.io/nim/meta/llama-3.1-8b-instruct:1.8.4 bash
 $ id
 EXAMPLE OUTPUT: 
 uid=1000(nim) gid=1000(nim)  ... ...
@@ -63,23 +63,23 @@ $ exit
 
 **5. If the `uid` is not `1000`, replace commands with the correct uid values. Else, simply run these commands in terminal.**
 ```
-$ sudo chown -R 1000:1000 ~/.cache/model-cache
-$ sudo chmod -R 775 ~/.cache/model-cache
-$ sudo chown -R 1000:1000 ~/.cache/nim
-$ sudo chmod -R 775 ~/.cache/nim
+sudo chown -R 1000:1000 ~/.cache/model-cache
+sudo chmod -R 775 ~/.cache/model-cache
+sudo chown -R 1000:1000 ~/.cache/nim
+sudo chmod -R 775 ~/.cache/nim
 ```
 
 
 **6. Everything should be set up! Let's spin up the RAG solution. Run this command to deploy the containers/** 
 ```
-$ cd RAG/examples/basic_rag/langchain
+cd RAG/examples/basic_rag/langchain
 USERID=$(id -u) docker compose --profile local-nim --profile nemo-retriever --profile milvus up --build -d
 ```
 
 
 **7. Run `nvidia-smi` to see the memory usage of the RAG containers. Verify that your processes align to the expected GPU memory usage.** 
 ```
-$ nvidia-smi
+nvidia-smi
 
 Mon May 19 17:44:11 2025
 +-----------------------------------------------------------------------------------------+
