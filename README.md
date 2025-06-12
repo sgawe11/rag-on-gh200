@@ -27,7 +27,7 @@ $ docker login nvcr.io
 
 **2. Clone the repository and navigate into the appropiate directory.**
 ```
-git clone https://gitlab-master.nvidia.com/msorkin/rag-on-gh200.git && cd rag-on-gh200
+git clone https://github.com/sgawe11/rag-on-gh200.git && cd rag-on-gh200
 ```
 
 **3. It's time to set up some environment variables and folders. Run these commands in terminal.**
