@@ -128,5 +128,5 @@ ssh -L 9999:localhost:8071 user@XX.XXX.XXX.XX
 
 
 ## Further Resources (NIMs, RAG)
-- links to some blogs
-- links to some documentation 
+- https://docs.nvidia.com/nim/large-language-models/1.8.0/introduction.html
+
