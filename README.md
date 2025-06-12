@@ -20,7 +20,7 @@ To make it easy for you to get started, here's the next steps to quickstart.
 **1. Login to nvcr.io with your NGC API key credentials.**
 
 ```
-$ docker login nvcr.io
+docker login nvcr.io
 - Username: $oauthtoken
 - Password: <Insert NGC key: nvapi-u6hwGp....>
 ```
