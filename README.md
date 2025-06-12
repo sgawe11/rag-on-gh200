@@ -7,7 +7,7 @@ Welcome to the repository! The intent is to provide clear steps to standing up a
 - NVIDIA Container Toolkit
 - Docker 
 - NVIDIA NGC API Key
-//TODO insert info on ensuring nvidia-ctk and docker have appropiate runtimes steps <br>
+
 
 
 ## Quickstart 
