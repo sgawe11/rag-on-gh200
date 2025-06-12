@@ -38,7 +38,7 @@ sudo chmod +x env_setup.sh
 
 You should see the following output in terminal
 ```
-$ ./env_setup.sh
+ ./env_setup.sh
 ---- ENVIRONMENT VARIABLES SET UP ---
 /home/nvidia/.cache/model-cache
 /home/nvidia/.cache/nim
